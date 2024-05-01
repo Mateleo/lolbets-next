@@ -6,13 +6,33 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"style": {
+				"noNonNullAssertion": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
+			},
+			"correctness": {
+				"noUnusedImports": "warn"
+			}
 		}
 	},
 	"javascript": {
 		"formatter": {
 			"semicolons": "asNeeded",
-			"lineWidth": 120
+			"lineWidth": 120,
+			"trailingComma": "none"
 		}
+	},
+	"files": {
+		"ignore": [
+			".next",
+			"node_modules/**",
+			"**/*.json",
+			"**/dist",
+			"**/out",
+			"public/**/*.js"
+		]
 	}
 }
