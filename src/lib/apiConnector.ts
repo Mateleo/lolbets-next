@@ -1,16 +1,20 @@
-import type { ApiMatch } from "../types/api"
+import type { ApiMatch } from "@/types/api"
 
 const BASE_URL = "https://api.pandascore.co/lol"
 
 export const idsTracked = {
-	series: new Map([["MSI 2024", 7448]]),
-	leagues: new Map([["MSI", 300]])
+	series: {
+		"MSI 2024": 7448
+	},
+	leagues: {
+		MSI: 300
+	}
 } as const
 
 function buildFilters(ids: typeof idsTracked) {
 	let url = "?"
-	ids.series.forEach((id) => {
-		url += `filter[serie_id]=${id}&`
+	Object.entries(ids.series).map((serie) => {
+		url += `filter[serie_id]=${serie[1]}&`
 	})
 	return `${url}per_page=100`
 }
@@ -21,7 +25,8 @@ export async function fetchMatches(): Promise<ApiMatch[]> {
 		headers: {
 			Authorization: process.env.PANDASCORE_API_KEY!,
 			accept: "application/json"
-		}
+		},
+		cache: "no-cache"
 	})
 	return response.json()
 }

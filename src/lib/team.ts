@@ -1,4 +1,4 @@
-import type { ApiOpponent } from "../types/api"
+import type { ApiOpponent } from "@/types/api"
 import { db } from "./prisma"
 
 export async function createOrUpdateTeams(teams: ApiOpponent[]) {

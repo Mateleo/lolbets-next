@@ -1,9 +1,9 @@
+import { fetchMatches } from "@/lib/apiConnector"
+import { createOrUpdateGames } from "@/lib/game"
+import { createOrUpdateLeagues } from "@/lib/league"
+import { createOrUpdateMatches } from "@/lib/match"
+import { createOrUpdateTeams } from "@/lib/team"
 import { NextResponse } from "next/server"
-import { fetchMatches } from "../lib/apiConnector"
-import { createOrUpdateGames } from "../lib/game"
-import { createOrUpdateLeagues } from "../lib/league"
-import { createOrUpdateMatches } from "../lib/match"
-import { createOrUpdateTeams } from "../lib/team"
 
 export const dynamic = "force-dynamic"
 
@@ -18,5 +18,5 @@ export async function GET() {
 	await createOrUpdateMatches(matches)
 	await createOrUpdateGames(games)
 
-	return NextResponse.json({ response: "done" })
+	return NextResponse.json(matches)
 }

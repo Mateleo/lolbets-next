@@ -1,4 +1,4 @@
-import type { ApiLeague } from "../types/api"
+import type { ApiLeague } from "@/types/api"
 import { db } from "./prisma"
 
 export async function createOrUpdateLeagues(leagues: ApiLeague[]) {

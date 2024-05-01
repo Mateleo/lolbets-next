@@ -1,4 +1,4 @@
-import type { ApiMatch } from "../types/api"
+import type { ApiMatch } from "@/types/api"
 import { db } from "./prisma"
 
 export async function createOrUpdateMatches(matches: ApiMatch[]) {

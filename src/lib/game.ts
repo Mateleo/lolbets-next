@@ -1,4 +1,4 @@
-import type { ApiGame } from "../types/api"
+import type { ApiGame } from "@/types/api"
 import { db } from "./prisma"
 
 export async function createOrUpdateGames(games: ApiGame[]) {
