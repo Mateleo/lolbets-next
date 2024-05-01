@@ -3,6 +3,7 @@ import { BetSection } from "@/components/BetSection"
 import { idsTracked } from "@/lib/apiConnector"
 import { db } from "@/lib/prisma"
 import Image from "next/image"
+import dayjs from 'dayjs'
 
 export const dynamic = "force-dynamic"
 
@@ -40,7 +41,7 @@ export default async function Home() {
 	const session = await auth()
 
 	return (
-		<main className="max-w-min text-nowrap m-auto my-10">
+		<main className="max-w-min text-nowrap m-10 flex gap-10">
 			<ul className="flex flex-col gap-4">
 				{matches.map((match) => {
 					const team1 = match.opponents.at(0)
@@ -52,6 +53,7 @@ export default async function Home() {
 					const totalBets = match.bets.reduce((sum, bet) => sum + bet.amount, 0)
 					const isBettable = match.status === "not_started"
 					const teamUserBets = match.bets.find((bet) => bet.userId === session?.user?.id)
+					const isRunningorFinished = match.status === "running" || match.status === "finished"
 
 					return (
 						<li
@@ -60,7 +62,7 @@ export default async function Home() {
 						>
 							<div className="flex flex-col gap-2">
 								<p className="text-custom-text-200 text-sm">
-									{match.scheduled_at.toLocaleString("fr-fr")} - {`BO${match.number_of_games}`}
+									{dayjs(match.scheduled_at).format("DD/MM - H:mm")} - {`BO${match.number_of_games}`}
 								</p>
 								<div>
 									{match.opponents.map((team) => {
@@ -68,7 +70,7 @@ export default async function Home() {
 										return (
 											<div key={team.id} className={"flex gap-4 items-center"}>
 												<p className={`${isWinner ? "text-[#e9ce8b]" : ""}`}>
-													{match.games.reduce((sum, game) => (game.winner_id === team.id ? sum + 1 : sum), 0) as number}
+													{isRunningorFinished && match.games.reduce((sum, game) => (game.winner_id === team.id ? sum + 1 : sum), 0) as number}
 												</p>
 												<Image height={24} width={24} src={team.image_url} alt={`${team.name} logo`} />
 												<p className="font-semibold">{team.acronym}</p>
@@ -101,10 +103,15 @@ export default async function Home() {
 					)
 				})}
 			</ul>
-			<ul>
-				{users.map((user) => (
-					<ul key={user.id}>
-						{user.name} - {user.points}
+			<ul className="flex flex-col gap-4">
+				{users.map((user, index) => (
+					<ul key={user.id} className="flex gap-3 items-center">
+						<p>{index + 1}</p>
+						<Image src={user.image!} width={50} height={50} alt={user.name!} className="rounded-full" />
+						<div className="flex flex-col">
+							<p className="font-semibold">{user.name}</p>
+							<p className="text-yellow-400">{user.points} pts</p>
+						</div>
 					</ul>
 				))}
 			</ul>
