@@ -4,6 +4,8 @@ import { idsTracked } from "@/lib/apiConnector"
 import { db } from "@/lib/prisma"
 import Image from "next/image"
 
+export const dynamic = "force-dynamic"
+
 export default async function Home() {
 	const matches = await db.match.findMany({
 		where: {
@@ -26,6 +28,12 @@ export default async function Home() {
 		},
 		orderBy: {
 			scheduled_at: "asc"
+		}
+	})
+
+	const users = await db.user.findMany({
+		orderBy: {
+			points: "desc"
 		}
 	})
 
@@ -92,6 +100,13 @@ export default async function Home() {
 						</li>
 					)
 				})}
+			</ul>
+			<ul>
+				{users.map((user) => (
+					<ul key={user.id}>
+						{user.name} - {user.points}
+					</ul>
+				))}
 			</ul>
 		</main>
 	)
