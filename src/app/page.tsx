@@ -1,4 +1,3 @@
-import { auth } from "@/auth"
 import { idsTracked } from "@/lib/apiConnector"
 import { db } from "@/lib/prisma"
 import Image from "next/image"
@@ -27,14 +26,13 @@ export default async function Home() {
 		}
 	})
 
-	const session = await auth()
 	return (
 		<main className="max-w-5xl m-auto my-10">
 			<ul className="flex flex-col gap-4">
 				{matches.map((match) => (
 					<li
 						key={match.id}
-						className="rounded border-[#010101] border-2 p-4 bg-custom-background-100 flex items-center justify-between"
+						className="rounded border-[#010101] border-2 p-4 bg-[#242629] flex items-center justify-between"
 					>
 						<div className="flex flex-col gap-2">
 							<p className="text-custom-text-200 text-sm">

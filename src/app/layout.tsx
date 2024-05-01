@@ -18,7 +18,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<body className={GeistSans.className}>
-				<header className="flex justify-between">
+				<header className="flex justify-between p-2">
 					<h1 className="text-5xl font-semibold">Lolbets</h1>
 					<HeaderProfile session={session} />
 				</header>

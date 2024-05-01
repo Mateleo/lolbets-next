@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss"
 
 const config = {
-	darkMode: ["class"],
 	content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
 	prefix: "",
 	theme: {
@@ -27,11 +26,18 @@ const config = {
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out"
 			},
-      colors: {
-        'custom-background': {
-          100: "#16161a"
-        }
-      }
+			colors: {
+				"custom-background": {
+					100: "#16161a"
+				},
+				"custom-text": {
+					100: "#fffffe",
+					200: "#94a1b2"
+				},
+				"custom-button": {
+					100: "#7f5af0"
+				}
+			}
 		}
 	},
 	plugins: [require("tailwindcss-animate")]
