@@ -34,7 +34,7 @@ model Match {
   winner    Team?   @relation(name: "winner", fields: [winner_id], references: [id])
   winner_id Int?
   opponents Team[]
-  // bets      Bet[]
+  bets      Bet[]
 }
 
 model Game {
@@ -61,7 +61,19 @@ model Team {
   slug      String
   match     Match[]
   match_won Match[]  @relation(name: "winner")
-  // bets      Bet[]
+  bets      Bet[]
+}
+
+model Bet {
+  id     String @id @default(cuid())
+  amount Int
+
+  match   Match  @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  matchId Int
+  team    Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId  Int
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
 }
 
 enum Status {
@@ -74,7 +86,7 @@ enum Status {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
@@ -82,6 +94,10 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  discordId String @unique
+  points    Int    @default(500)
+  bets      Bet[]
 }
 
 model Account {
