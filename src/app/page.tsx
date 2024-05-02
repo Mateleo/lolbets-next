@@ -69,7 +69,7 @@ export default async function Home() {
 										const isWinner = match.winner_id === team.id
 										return (
 											<div key={team.id} className={"flex gap-4 items-center"}>
-												<p className={`${isWinner ? "text-[#e9ce8b]" : ""}`}>
+												<p className={`${isWinner ? "text-[#e9ce8b] font-semibold" : ""}`}>
 													{isRunningorFinished && match.games.reduce((sum, game) => (game.winner_id === team.id ? sum + 1 : sum), 0) as number}
 												</p>
 												<Image height={24} width={24} src={team.image_url} alt={`${team.name} logo`} />

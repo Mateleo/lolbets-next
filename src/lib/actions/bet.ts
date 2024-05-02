@@ -40,7 +40,7 @@ export async function bet({ amount, matchId, teamId }: { amount: number; matchId
 	if (user.points! < amount || amount === 0) {
 		return { error: "Not enough points or bet equals 0" }
 	}
-	const previousBet = match?.bets.find((bet) => bet.userId === user.discordId)
+	const previousBet = match?.bets.find((bet) => bet.userId === user.id)
 	if (previousBet) {
 		if (previousBet.teamId !== teamId) {
 			return { error: "You have bet on the other team already" }

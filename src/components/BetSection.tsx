@@ -5,6 +5,7 @@ import { Button } from "./ui/button"
 import type { Bet } from "@prisma/client"
 import { Input } from "./ui/input"
 import { useState } from "react"
+import { Coins } from "lucide-react"
 
 interface BetInputProps {
 	matchId: number
@@ -46,11 +47,11 @@ export function BetSection({
 							"bg-transparent border-custom-border-100 hover:bg-transparent/20 h-min p-1 text-custom-text-100 rounded-l-none border-[3px]"
 						}
 						onClick={async () => {
-							await bet({
+							console.log(await bet({
 								amount: parseInt(amount),
 								matchId,
 								teamId
-							})
+							}))
 						}}
 					>
 						Bet
@@ -62,7 +63,10 @@ export function BetSection({
 					hasUserBettedOnThisTeam ? " text-custom-green-100" : "text-custom-button-100"
 				}`}
 			>
-				<p>{teamBets.reduce((sum, bet) => sum + bet.amount, 0) as number}</p>
+				<div className="flex gap-1 p-1">
+					<Coins />
+					<p>{teamBets.reduce((sum, bet) => sum + bet.amount, 0) as number}</p>
+				</div>
 				<div
 					className={`h-1  rounded-full ${hasUserBettedOnThisTeam ? "bg-custom-green-100" : "bg-custom-button-100"}`}
 					style={{
