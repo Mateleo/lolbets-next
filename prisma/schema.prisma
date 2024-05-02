@@ -83,6 +83,15 @@ enum Status {
   canceled
 }
 
+model Claim {
+  id     String   @id @default(cuid())
+  amount Int
+  date   DateTime @default(now())
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -95,9 +104,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  discordId String @unique
-  points    Int    @default(500)
+  discordId String  @unique
+  points    Int     @default(500)
   bets      Bet[]
+  claims    Claim[]
 }
 
 model Account {

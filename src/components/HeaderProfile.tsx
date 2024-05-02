@@ -25,7 +25,6 @@ export function HeaderProfile({ session }: { session: Session | null }) {
 					</div>
 					<Button
 						className="bg-custom-button-100 text-custom-text-100 hover:bg-custom-button-100/80"
-						type="button"
 						onClick={() => signOutAction()}
 					>
 						Logout
@@ -34,7 +33,6 @@ export function HeaderProfile({ session }: { session: Session | null }) {
 			) : (
 				<Button
 					className="bg-custom-button-100 text-custom-text-100 hover:bg-custom-button-100/80"
-					type="button"
 					onClick={() => signInAction()}
 				>
 					Login

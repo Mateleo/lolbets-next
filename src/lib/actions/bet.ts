@@ -37,8 +37,11 @@ export async function bet({ amount, matchId, teamId }: { amount: number; matchId
 	if (!opponents.includes(teamId)) {
 		return { error: "TeamId not in match opponents" }
 	}
-	if (user.points! < amount || amount === 0) {
-		return { error: "Not enough points or bet equals 0" }
+	if (user.points! < amount) {
+		return { error: "Not enough points" }
+	}
+	if (amount <= 0) {
+		return { error: "Bet value not allowed" }
 	}
 	const previousBet = match?.bets.find((bet) => bet.userId === user.id)
 	if (previousBet) {
