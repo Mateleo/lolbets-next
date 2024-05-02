@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { auth } from "@/auth"
 import { HeaderProfile } from "@/components/HeaderProfile"
+import { Toaster } from "@/components/ui/sonner"
 
 export const metadata: Metadata = {
 	title: "Lolbets renaissance",
@@ -23,6 +24,7 @@ export default async function RootLayout({
 					<HeaderProfile session={session} />
 				</header>
 				{children}
+				<Toaster />
 			</body>
 		</html>
 	)

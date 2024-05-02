@@ -43,7 +43,7 @@ export async function bet({ amount, matchId, teamId }: { amount: number; matchId
 	const previousBet = match?.bets.find((bet) => bet.userId === user.id)
 	if (previousBet) {
 		if (previousBet.teamId !== teamId) {
-			return { error: "You have bet on the other team already" }
+			return { error: "You have betted on the other team already" }
 		}
 		await db.bet.update({
 			where: {

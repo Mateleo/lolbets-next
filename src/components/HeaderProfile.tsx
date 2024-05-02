@@ -20,7 +20,7 @@ export function HeaderProfile({ session }: { session: Session | null }) {
 						/>
 						<div>
 							<p className="font-semibold text-custom-text-100">{session.user?.name}</p>
-							<p>{session.user?.points} pts</p>
+							<p className="text-yellow-400">{session.user?.points} pts</p>
 						</div>
 					</div>
 					<Button

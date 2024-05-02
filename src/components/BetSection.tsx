@@ -6,6 +6,7 @@ import type { Bet } from "@prisma/client"
 import { Input } from "./ui/input"
 import { useState } from "react"
 import { Coins } from "lucide-react"
+import { toast } from "sonner"
 
 interface BetInputProps {
 	matchId: number
@@ -47,11 +48,16 @@ export function BetSection({
 							"bg-transparent border-custom-border-100 hover:bg-transparent/20 h-min p-1 text-custom-text-100 rounded-l-none border-[3px]"
 						}
 						onClick={async () => {
-							console.log(await bet({
+							const response = await bet({
 								amount: parseInt(amount),
 								matchId,
 								teamId
-							}))
+							})
+							if (response?.error) {
+								toast.error(response.error)
+							} else {
+								toast.success( `You betted ${amount} on ${teamName} 🪙`)
+							}
 						}}
 					>
 						Bet
