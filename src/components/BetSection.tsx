@@ -43,7 +43,7 @@ export async function BetSection({ userId }: Props) {
 					<li className={"border-[3px] bg-custom-background-200 border-custom-border-100 rounded p-4"} key={bet.id}>
 						<div className="flex flex-col gap-2">
 							<p className="text-custom-text-200 text-sm">
-								{dayjs(match.scheduled_at).format("DD/MM - H:mm")} - {`BO${match.number_of_games}`}
+								{dayjs(match.scheduled_at).format("DD/MM")} - {`BO${match.number_of_games}`}
 							</p>
 							<div>
 								{match.opponents.map((team) => {
