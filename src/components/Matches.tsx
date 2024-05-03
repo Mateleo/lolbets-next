@@ -2,7 +2,7 @@ import { auth } from "@/auth"
 import type { Prisma } from "@prisma/client"
 import dayjs from "dayjs"
 import Image from "next/image"
-import { BetSection } from "./BetSection"
+import { MatchBetSection } from "./MatchBetSection"
 
 interface Props {
 	match: Prisma.MatchGetPayload<{
@@ -27,7 +27,7 @@ export async function Matches({ match }: Props) {
 	const totalBets = match.bets.reduce((sum, bet) => sum + bet.amount, 0)
 	const isBettable = match.status === "not_started"
 	const teamUserBets = match.bets.find((bet) => bet.userId === session?.user?.id)
-	const isRunningorFinished = match.status === "running" || match.status === "finished"
+	const isRunningOrFinished = match.status === "running" || match.status === "finished"
 	return (
 		<li className="rounded border-custom-border-100 border-[3px] p-4 gap-4 bg-custom-background-200 flex items-center justify-between">
 			<div className="flex flex-col gap-2">
@@ -40,7 +40,7 @@ export async function Matches({ match }: Props) {
 						return (
 							<div key={team.id} className={"flex gap-4 items-center"}>
 								<p className={`${isWinner ? "text-[#e9ce8b] font-semibold" : ""}`}>
-									{isRunningorFinished &&
+									{isRunningOrFinished &&
 										(match.games.reduce((sum, game) => (game.winner_id === team.id ? sum + 1 : sum), 0) as number)}
 								</p>
 								<Image height={24} width={24} src={team.image_url} alt={`${team.name} logo`} />
@@ -51,7 +51,7 @@ export async function Matches({ match }: Props) {
 				</div>
 			</div>
 			<section className="flex flex-col gap-2 items-end">
-				<BetSection
+				<MatchBetSection
 					percentage={team1betsSum / totalBets}
 					teamName={match.opponents.at(0)?.acronym!}
 					matchId={match.id}
@@ -60,7 +60,7 @@ export async function Matches({ match }: Props) {
 					displayInput={isBettable}
 					teamUserBets={teamUserBets}
 				/>
-				<BetSection
+				<MatchBetSection
 					percentage={team2betsSum / totalBets}
 					teamName={match.opponents.at(1)?.acronym!}
 					matchId={match.id}

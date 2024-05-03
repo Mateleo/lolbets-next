@@ -4,6 +4,8 @@ import { ClaimSection } from "@/components/ClaimSection"
 import { Matches } from "@/components/Matches"
 import { Leaderboard } from "@/components/Leaderboard"
 import { isClaimAvailable } from "@/lib/actions/claim"
+import { BetSection } from "@/components/BetSection"
+import { auth } from "@/auth"
 
 export const dynamic = "force-dynamic"
 
@@ -46,6 +48,8 @@ export default async function Home() {
 		}
 	})
 
+	const session = await auth()
+
 	const { available, secondsUntilClaim } = await isClaimAvailable()
 
 	return (
@@ -56,6 +60,7 @@ export default async function Home() {
 				))}
 			</ul>
 			<Leaderboard users={users} />
+			<BetSection userId={session?.user?.id}/>
 			<ClaimSection available={available} secondsUntilClaim={secondsUntilClaim} />
 		</main>
 	)

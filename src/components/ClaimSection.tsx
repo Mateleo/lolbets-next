@@ -17,11 +17,11 @@ export function ClaimSection({ available, secondsUntilClaim }: Props) {
 	const router = useRouter()
 
 	useEffect(() => {
-		setInterval(() => {
+		const interval = setInterval(() => {
 			setDisplayTime(dayjs(displayTime).add(-1, "second").toDate())
 		}, 1000)
+		return () => clearInterval(interval)
 	}, [displayTime])
-
 
 	useEffect(() => {
 		if (displayTime.toISOString().slice(11, 19) === "00:00:00") {
@@ -31,6 +31,18 @@ export function ClaimSection({ available, secondsUntilClaim }: Props) {
 
 	return (
 		<>
+			{/* <Button
+				onClick={async () => {
+					const response = await distributeBets()
+					if (response?.error) {
+						toast.error(response.error)
+					} else {
+						toast.success("bets distribued")
+					}
+				}}
+			>
+				Distribute bets
+			</Button> */}
 			{available ? (
 				<Button
 					className="bg-custom-button-100 text-custom-text-100 hover:bg-custom-button-100/80"
@@ -46,7 +58,7 @@ export function ClaimSection({ available, secondsUntilClaim }: Props) {
 					Claim
 				</Button>
 			) : (
-				<div>{displayTime.toISOString().slice(11, 19)} until next claim</div>
+				<div className="text-custom-text-200">{displayTime.toISOString().slice(11, 19)} until next claim</div>
 			)}
 		</>
 	)

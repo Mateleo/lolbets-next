@@ -80,3 +80,78 @@ export async function bet({ amount, matchId, teamId }: { amount: number; matchId
 	})
 	revalidatePath("/")
 }
+
+export async function distributeBets() {
+	const session = await auth()
+	if (!session) return { error: "must be logged in" }
+
+	const matchesToDistribute = await db.match.findMany({
+		where: {
+			status: "finished",
+			bets_distributed: false
+		},
+		include: {
+			bets: {
+				include: {
+					team: true
+					// user: true
+				}
+			}
+		}
+	})
+
+	for (const match of matchesToDistribute) {
+		let totalWinner = 0
+		let totalLooser = 0
+
+		match.bets.forEach((bet) => {
+			if (bet.teamId === match.winner_id) {
+				totalWinner += bet.amount
+			} else {
+				totalLooser += bet.amount
+			}
+		})
+
+		const total = totalLooser + totalWinner
+
+		for (const bet of match.bets) {
+			let amountRecieved = 0
+			if (bet.teamId === match.winner_id) {
+				amountRecieved = Math.round(total * (bet.amount / totalWinner))
+			} else {
+				amountRecieved = -bet.amount
+			}
+			await db.bet.update({
+				where: {
+					id: bet.id
+				},
+				data: {
+					amountRecieved: amountRecieved,
+					status: amountRecieved > 0 ? "won" : "lost"
+				}
+			})
+			if (amountRecieved > 0) {
+				await db.user.update({
+					where: {
+						id: bet.userId
+					},
+					data: {
+						points: {
+							increment: amountRecieved
+						}
+					}
+				})
+			}
+		}
+
+		await db.match.update({
+			where: {
+				id: match.id
+			},
+			data: {
+				bets_distributed: true
+			}
+		})
+	}
+	revalidatePath("/")
+}
