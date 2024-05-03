@@ -1,8 +1,9 @@
 import { idsTracked } from "@/lib/apiConnector"
 import { db } from "@/lib/prisma"
-import { ClaimButton } from "@/components/ClaimButton"
+import { ClaimSection } from "@/components/ClaimSection"
 import { Matches } from "@/components/Matches"
 import { Leaderboard } from "@/components/Leaderboard"
+import { isClaimAvailable } from "@/lib/actions/claim"
 
 export const dynamic = "force-dynamic"
 
@@ -34,18 +35,28 @@ export default async function Home() {
 	const users = await db.user.findMany({
 		orderBy: {
 			points: "desc"
+		},
+		include: {
+			claims: {
+				orderBy: {
+					date: "desc"
+				},
+				take: 1
+			}
 		}
 	})
 
+	const { available, secondsUntilClaim } = await isClaimAvailable()
+
 	return (
 		<main className="max-w-min text-nowrap m-10 flex gap-10">
-			<ul className="flex flex-col gap-4">
+			<ul className="flex flex-col gap-2">
 				{matches.map((match) => (
 					<Matches match={match} key={match.id} />
 				))}
 			</ul>
 			<Leaderboard users={users} />
-			<ClaimButton />
+			<ClaimSection available={available} secondsUntilClaim={secondsUntilClaim} />
 		</main>
 	)
 }

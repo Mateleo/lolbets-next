@@ -24,7 +24,7 @@ export default async function RootLayout({
 					<HeaderProfile session={session} />
 				</header>
 				{children}
-				<Toaster />
+				<Toaster richColors />
 			</body>
 		</html>
 	)
