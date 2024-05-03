@@ -11,7 +11,7 @@ const SECONDS_IN_DAY = 60 * 60 * 24
 
 export async function isClaimAvailable() {
 	const session = await auth()
-	if (!session) throw Error("not logged in")
+	if (!session) return { available: true, secondsUntilClaim: 0 }
 
 	const user = await db.user.findFirst({
 		where: {
@@ -28,7 +28,7 @@ export async function isClaimAvailable() {
 			}
 		}
 	})
-	if (!user) throw Error("user not found")
+	if (!user) return { available: true, secondsUntilClaim: 0 }
 
 	if (user.claims.length === 0) return { available: true, secondsUntilClaim: 0 }
 
