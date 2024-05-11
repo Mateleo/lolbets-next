@@ -15,9 +15,7 @@ export async function Leaderboard({ users }: Props) {
 				return (
 					<li
 						key={user.id}
-						className={
-							"flex items-center justify-between gap-6 odd:bg-custom-background-200 px-4 py-2 border-custom-border-100 border-[3px] last:rounded-b-lg last:border-t-0 first:rounded-t-lg first:border-b-0"
-						}
+						className="flex items-center justify-between gap-6 odd:bg-custom-background-200 px-4 py-2 border-custom-border-100 border-x-[3px] border-b-[3px] first:border-t-[3px] last:rounded-b-lg first:rounded-t-lg"
 					>
 						<div className="flex gap-3 items-center">
 							<p className={`${isCurrentUser ? "text-custom-text-100" : "text-custom-text-200"} w-4 text-center`}>

@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { auth } from "@/auth"
 import { ClaimSection } from "@/components/ClaimSection"
-import { Profile } from "@/components/HeaderProfile"
+import { Profile } from "@/components/Profile"
 import { Separator } from "@/components/ui/separator"
 import { Toaster } from "@/components/ui/sonner"
 import { isClaimAvailable } from "@/lib/actions/claim"
@@ -40,8 +40,12 @@ async function Sidebar() {
 	const { available, secondsUntilClaim } = await isClaimAvailable()
 	return (
 		<nav className="p-4 flex flex-col justify-between bg-custom-background-200 border-[3px] border-custom-border-100 rounded-lg">
-			<h1 className="text-5xl font-semibold">Lolbets</h1>
-			{session?.user?.isAdmin && <Link href={"/admin"}>Admin</Link>}
+			<div className="flex flex-col gap-4">
+				<Link href={"/"}>
+					<h1 className="text-5xl font-semibold">Lolbets</h1>
+				</Link>
+				{session?.user?.isAdmin && <Link href={"/admin"}>Admin</Link>}
+			</div>
 			<section className="flex flex-col gap-4">
 				<ClaimSection available={available} secondsUntilClaim={secondsUntilClaim} />
 				<Profile session={session} />

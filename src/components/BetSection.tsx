@@ -27,11 +27,16 @@ export async function BetSection({ bets }: Props) {
 		<ul className="flex flex-col w-max gap-2">
 			{bets.map((bet) => {
 				const match = bet.match
+				const isToday = dayjs(match.scheduled_at).isSame(dayjs(), "day")
+				const isTomorrow = dayjs(match.scheduled_at).isSame(dayjs().add(1, "day"), "day")
+				const displayDate = dayjs(match.scheduled_at).format(
+					`${isToday ? "[Aujourd'hui]" : isTomorrow ? "[Demain]" : "DD/MM"} - H:mm`
+				)
 				return (
 					<li className="border-[3px] bg-custom-background-200 border-custom-border-100 rounded-lg p-4" key={bet.id}>
 						<div className="flex flex-col gap-2">
 							<p className="text-custom-text-200 text-sm">
-								{dayjs(match.scheduled_at).format("DD/MM")} - {`BO${match.number_of_games}`}
+								{displayDate} - {`BO${match.number_of_games}`}
 							</p>
 							<div>
 								{match.opponents.map((team) => {
