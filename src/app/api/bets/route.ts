@@ -1,5 +1,6 @@
 import { auth } from "@/auth"
 import { distributeBets } from "@/lib/actions/bet"
+import { redirect } from "next/navigation"
 import { NextResponse } from "next/server"
 
 export async function GET() {
@@ -8,5 +9,5 @@ export async function GET() {
 		return NextResponse.json({ error: "Must be logged in" })
 	}
 	await distributeBets()
-	return NextResponse.json({ done: "yes" })
+	redirect("/")
 }
