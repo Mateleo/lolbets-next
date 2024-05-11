@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 import type { ReactNode } from "react"
+import { PlayerSearch } from "@/components/PlayerSearch"
 
 export const metadata: Metadata = {
 	title: "Lolbets renaissance",
@@ -41,10 +42,10 @@ async function Sidebar() {
 	return (
 		<nav className="p-4 flex flex-col justify-between bg-custom-background-200 border-[3px] border-custom-border-100 rounded-lg">
 			<div className="flex flex-col gap-4">
-				<Link href={"/"}>
+				<Link href="/">
 					<h1 className="text-5xl font-semibold">Lolbets</h1>
 				</Link>
-				{session?.user?.isAdmin && <Link href={"/admin"}>Admin</Link>}
+				<PlayerSearch />
 			</div>
 			<section className="flex flex-col gap-4">
 				<ClaimSection available={available} secondsUntilClaim={secondsUntilClaim} />

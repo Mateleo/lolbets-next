@@ -4,13 +4,14 @@ import { signInAction, signOutAction } from "@/lib/actions/auth"
 import type { Session } from "next-auth"
 import Image from "next/image"
 import { Button } from "./ui/button"
+import Link from "next/link"
 
 export function Profile({ session }: { session: Session | null }) {
 	return (
 		<>
 			{session ? (
 				<div className="flex flex-col gap-4 items-center">
-					<div className="flex gap-2 items-center">
+					<Link className="flex gap-2 items-center" href={`/player/${session.user?.name}`}>
 						<Image
 							src={session.user?.image!}
 							width={50}
@@ -25,7 +26,7 @@ export function Profile({ session }: { session: Session | null }) {
 								&nbsp;LP
 							</p>
 						</div>
-					</div>
+					</Link>
 					<Button
 						className="bg-custom-button-100 text-custom-text-100 hover:bg-custom-button-100/80 w-full"
 						onClick={() => signOutAction()}

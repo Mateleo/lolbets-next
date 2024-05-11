@@ -2,9 +2,12 @@ import { BetSection } from "@/components/BetSection"
 import { SectionWithTitle } from "@/components/SectionWIthTitle"
 import { getUserRank } from "@/lib/actions/user"
 import { db } from "@/lib/prisma"
+import type { Claim } from "@prisma/client"
 import dayjs from "dayjs"
 import Image from "next/image"
 import { redirect } from "next/navigation"
+
+export const dynamic = "force-dynamic"
 
 export default async function Page({ params }: { params: { player: string } }) {
 	const player = await db.user.findFirst({
@@ -88,23 +91,35 @@ export default async function Page({ params }: { params: { player: string } }) {
 					<BetSection bets={player.bets} />
 				</SectionWithTitle>
 				<SectionWithTitle title="Claims">
-					<ol className="flex flex-col min-w-max h-min">
-						{player.claims.map((claim) => {
-							const isToday = dayjs(claim.date).isSame(dayjs(), "day")
-							const displayDate = dayjs(claim.date).format(`${isToday ? "[Aujourd'hui]" : "DD/MM"} - H:mm`)
-							return (
-								<li
-									key={claim.id}
-									className="flex items-center justify-between gap-6 odd:bg-custom-background-200 px-4 py-2 border-custom-border-100 border-x-[3px] border-b-[3px] first:border-t-[3px] last:rounded-b-lg first:rounded-t-lg"
-								>
-									<span className="font-semibold">+ {claim.amount}</span>
-									<span className="text-custom-text-200 text-sm">{displayDate}</span>
-								</li>
-							)
-						})}
-					</ol>
+					<ClaimHistory claims={player.claims} />
 				</SectionWithTitle>
 			</section>
 		</div>
+	)
+}
+
+interface ClaimHistoryProps {
+	claims: Claim[]
+}
+function ClaimHistory({ claims }: ClaimHistoryProps) {
+	if (claims.length === 0) {
+		return <div>Vos claims s'affichent ici</div>
+	}
+	return (
+		<ol className="flex flex-col min-w-max h-min">
+			{claims.map((claim) => {
+				const isToday = dayjs(claim.date).isSame(dayjs(), "day")
+				const displayDate = dayjs(claim.date).format(`${isToday ? "[Aujourd'hui]" : "DD/MM"} - H:mm`)
+				return (
+					<li
+						key={claim.id}
+						className="flex items-center justify-between gap-6 odd:bg-custom-background-200 px-4 py-2 border-custom-border-100 border-x-[3px] border-b-[3px] first:border-t-[3px] last:rounded-b-lg first:rounded-t-lg"
+					>
+						<span className="font-semibold">+ {claim.amount}</span>
+						<span className="text-custom-text-200 text-sm">{displayDate}</span>
+					</li>
+				)
+			})}
+		</ol>
 	)
 }

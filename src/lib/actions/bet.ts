@@ -6,10 +6,10 @@ import { db } from "../prisma"
 
 export async function bet({ amount, matchId, teamId }: { amount: number; matchId: number; teamId: number }) {
 	const session = await auth()
-	if (!session) return
+	if (!session) return { error: "You must log in to bet !" }
 
 	const user = session.user
-	if (!user) return
+	if (!user) return { error: "C'est la merde" }
 
 	const match = await db.match.findUnique({
 		where: {
