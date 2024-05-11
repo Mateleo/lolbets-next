@@ -117,6 +117,7 @@ model User {
   points    Int     @default(5000)
   bets      Bet[]
   claims    Claim[]
+  isAdmin   Boolean @default(false)
 }
 
 model Account {

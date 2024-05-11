@@ -34,5 +34,6 @@ declare module "next-auth" {
 	interface User {
 		discordId: string
 		points?: number
+		isAdmin?: boolean
 	}
 }

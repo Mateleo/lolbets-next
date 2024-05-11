@@ -41,7 +41,8 @@ async function Sidebar() {
 	return (
 		<nav className="p-4 flex flex-col justify-between bg-custom-background-200 border-[3px] border-custom-border-100 rounded-lg">
 			<h1 className="text-5xl font-semibold">Lolbets</h1>
-			<div className="flex flex-col gap-4">
+			{session?.user?.isAdmin && <Link href={"/admin"}>Admin</Link>}
+			<section className="flex flex-col gap-4">
 				<ClaimSection available={available} secondsUntilClaim={secondsUntilClaim} />
 				<Profile session={session} />
 				<Separator className="bg-custom-border-100" />
@@ -65,7 +66,7 @@ async function Sidebar() {
 						/>
 					</Link>
 				</section>
-			</div>
+			</section>
 		</nav>
 	)
 }
