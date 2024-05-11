@@ -1,8 +1,8 @@
 "use server"
 
 import { auth } from "@/auth"
-import { db } from "../prisma"
 import { revalidatePath } from "next/cache"
+import { db } from "../prisma"
 
 export async function bet({ amount, matchId, teamId }: { amount: number; matchId: number; teamId: number }) {
 	const session = await auth()

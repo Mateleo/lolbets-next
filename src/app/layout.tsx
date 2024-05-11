@@ -2,15 +2,15 @@ import { GeistSans } from "geist/font/sans"
 import type { Metadata } from "next"
 import "./globals.css"
 import { auth } from "@/auth"
-import { Profile } from "@/components/HeaderProfile"
-import { Toaster } from "@/components/ui/sonner"
-import type { ReactNode } from "react"
-import { cn } from "@/lib/utils"
 import { ClaimSection } from "@/components/ClaimSection"
-import { isClaimAvailable } from "@/lib/actions/claim"
+import { Profile } from "@/components/HeaderProfile"
 import { Separator } from "@/components/ui/separator"
-import Link from "next/link"
+import { Toaster } from "@/components/ui/sonner"
+import { isClaimAvailable } from "@/lib/actions/claim"
+import { cn } from "@/lib/utils"
 import Image from "next/image"
+import Link from "next/link"
+import type { ReactNode } from "react"
 
 export const metadata: Metadata = {
 	title: "Lolbets renaissance",
@@ -48,7 +48,9 @@ async function Sidebar() {
 				<section className="text-sm flex justify-evenly">
 					<Link target="_blank" href={"https://discord.gg/4esport"}>
 						<Image
-							src={"https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png"}
+							src={
+								"https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png"
+							}
 							width={24}
 							height={24}
 							alt={"discord logo"}

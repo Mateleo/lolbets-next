@@ -1,9 +1,9 @@
 "use server"
 
 import { auth } from "@/auth"
-import { db } from "../prisma"
 import { revalidatePath } from "next/cache"
 import { getSecondsSinceLastClaim } from "../claim"
+import { db } from "../prisma"
 
 const SECONDS_IN_HOUR = 3600
 const MINUTES_IN_DAY = 60 * 24

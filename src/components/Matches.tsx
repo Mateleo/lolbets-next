@@ -1,9 +1,9 @@
 import { auth } from "@/auth"
+import { cn } from "@/lib/utils"
 import type { Prisma } from "@prisma/client"
 import dayjs from "dayjs"
 import Image from "next/image"
 import { MatchBetSection } from "./MatchBetSection"
-import { cn } from "@/lib/utils"
 
 interface Props {
 	matches: Prisma.MatchGetPayload<{

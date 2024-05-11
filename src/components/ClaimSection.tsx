@@ -1,11 +1,11 @@
 "use client"
 
 import { claim } from "@/lib/actions/claim"
-import { Button } from "./ui/button"
-import { toast } from "sonner"
-import { useEffect, useState } from "react"
 import dayjs from "dayjs"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { toast } from "sonner"
+import { Button } from "./ui/button"
 
 type Props = {
 	available: boolean

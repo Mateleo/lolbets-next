@@ -1,12 +1,12 @@
 "use client"
 
 import { bet } from "@/lib/actions/bet"
-import { Button } from "./ui/button"
 import type { Bet } from "@prisma/client"
-import { Input } from "./ui/input"
-import { useState } from "react"
 import { Coins } from "lucide-react"
+import { useState } from "react"
 import { toast } from "sonner"
+import { Button } from "./ui/button"
+import { Input } from "./ui/input"
 
 interface BetInputProps {
 	matchId: number
