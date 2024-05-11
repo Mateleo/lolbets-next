@@ -83,7 +83,7 @@ export default async function Home() {
 		: []
 
 	return (
-		<main className="max-w-7xl m-auto text-nowrap flex flex-col gap-2">
+		<main className="max-w-7xl m-auto text-nowrap flex flex-col gap-4">
 			<section className="rounded-lg bg-custom-background-200 border-[3px] border-custom-border-100 p-4 flex flex-col gap-2">
 				<h2 className="font-semibold text-xl">Qu'est ce que Lolbets ?</h2>
 				<p className="text-custom-text-200 text-wrap">
