@@ -27,7 +27,7 @@ export function Profile({ session }: { session: Session | null }) {
 						</div>
 					</div>
 					<Button
-						className="bg-custom-button-100 text-custom-text-100 hover:bg-custom-button-100/80"
+						className="bg-custom-button-100 text-custom-text-100 hover:bg-custom-button-100/80 w-full"
 						onClick={() => signOutAction()}
 					>
 						Déconnexion
