@@ -7,6 +7,12 @@ const nextConfig = {
 			},
 			{
 				hostname: "cdn.discordapp.com"
+			},
+			{
+				hostname: "gyazo.com"
+			},
+			{
+				hostname: "assets-global.website-files.com"
 			}
 		]
 	}

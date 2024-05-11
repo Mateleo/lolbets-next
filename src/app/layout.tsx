@@ -8,6 +8,9 @@ import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import { ClaimSection } from "@/components/ClaimSection"
 import { isClaimAvailable } from "@/lib/actions/claim"
+import { Separator } from "@/components/ui/separator"
+import Link from "next/link"
+import Image from "next/image"
 
 export const metadata: Metadata = {
 	title: "Lolbets renaissance",
@@ -41,6 +44,25 @@ async function Sidebar() {
 			<div className="flex flex-col gap-4">
 				<ClaimSection available={available} secondsUntilClaim={secondsUntilClaim} />
 				<Profile session={session} />
+				<Separator className="bg-custom-border-100" />
+				<section className="text-sm flex justify-evenly">
+					<Link target="_blank" href={"https://discord.gg/4esport"}>
+						<Image
+							src={"https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png"}
+							width={24}
+							height={24}
+							alt={"discord logo"}
+						/>
+					</Link>
+					<Link target="_blank" href={"https://github.com/Turdyo/"}>
+						<Image
+							src={"https://gyazo.com/85e7ce9196ae635161fec921602903a7/max_size/1000"}
+							width={24}
+							height={24}
+							alt={"Github logo"}
+						/>
+					</Link>
+				</section>
 			</div>
 		</nav>
 	)
