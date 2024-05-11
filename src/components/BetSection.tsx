@@ -1,46 +1,34 @@
-import { db } from "@/lib/prisma"
+import { cn } from "@/lib/utils"
+import type { Prisma } from "@prisma/client"
 import dayjs from "dayjs"
 import { ArrowLeft, Check, X } from "lucide-react"
 import Image from "next/image"
 
 interface Props {
-	userId?: string
-}
-
-export async function BetSection({ userId }: Props) {
-	if (!userId) {
-		return <div>User has no bets</div>
-	}
-
-	const bets = await db.bet.findMany({
-		where: {
-			userId: {
-				equals: userId
-			}
-		},
+	bets: Prisma.BetGetPayload<{
 		include: {
 			match: {
 				include: {
-					opponents: true,
+					opponents: true
 					games: true
 				}
-			},
-			team: true
-		},
-		orderBy: {
-			match: {
-				scheduled_at: "asc"
 			}
+			team: true
 		}
-	})
+	}>[]
+}
+
+export async function BetSection({ bets }: Props) {
+	if (bets.length === 0) {
+		return <div>Vos bets s'affichent ici</div>
+	}
 
 	return (
 		<ul className="flex flex-col w-max gap-2">
 			{bets.map((bet) => {
-				const isToday = dayjs(bet.match.scheduled_at).isSame(dayjs(), "day")
 				const match = bet.match
 				return (
-					<li className={"border-[3px] bg-custom-background-200 border-custom-border-100 rounded p-4"} key={bet.id}>
+					<li className="border-[3px] bg-custom-background-200 border-custom-border-100 rounded-lg p-4" key={bet.id}>
 						<div className="flex flex-col gap-2">
 							<p className="text-custom-text-200 text-sm">
 								{dayjs(match.scheduled_at).format("DD/MM")} - {`BO${match.number_of_games}`}
@@ -54,20 +42,39 @@ export async function BetSection({ userId }: Props) {
 									const isRunningOrFinished = match.status === "running" || match.status === "finished"
 									return (
 										<div key={team.id} className={"flex gap-4 items-center"}>
-											<p className={`${isWinner ? "text-[#e9ce8b] font-semibold" : ""}`}>
-												{isRunningOrFinished &&
-													(match.games.reduce(
-														(sum, game) => (game.winner_id === team.id ? sum + 1 : sum),
-														0
-													) as number)}
+											{isRunningOrFinished && (
+												<span
+													className={cn(
+														isWinner ? "text-custom-yellow-100 font-semibold" : "text-custom-text-100",
+														"w-4 text-center"
+													)}
+												>
+													{match.games.reduce((sum, game) => (game.winner_id === team.id ? sum + 1 : sum), 0) as number}
+												</span>
+											)}
+											<Image
+												height={24}
+												width={24}
+												src={team.image_url}
+												alt={`${team.name} logo`}
+												className={`${isRunningOrFinished ? (isWinner ? "" : "opacity-50") : "opacity-100"}`}
+											/>
+											<p
+												className={`${
+													isRunningOrFinished
+														? isWinner
+															? "font-semibold"
+															: "text-custom-text-200"
+														: "text-custom-text-100 font-semibold"
+												}`}
+											>
+												{team.acronym}
 											</p>
-											<Image height={24} width={24} src={team.image_url} alt={`${team.name} logo`} />
-											<p className="font-semibold">{team.acronym}</p>
 											{isTeamBettedOn && (
 												<div className="flex gap-2 items-center">
 													{isDistribued ? isBetWon ? <Check color="#2cb67d" /> : <X color="#e84057" /> : <ArrowLeft />}
-													<p className="text-yellow-400">
-														{bet.status === "pending" ? bet.amount : `${isBetWon ? "+" : ""} ${bet.amountRecieved}`} pts
+													<p className="text-custom-yellow-100">
+														{bet.status === "pending" ? bet.amount : `${isBetWon ? "+" : ""} ${bet.amountRecieved}`} LP
 													</p>
 												</div>
 											)}

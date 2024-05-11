@@ -5,11 +5,11 @@ import type { Session } from "next-auth"
 import Image from "next/image"
 import { Button } from "./ui/button"
 
-export function HeaderProfile({ session }: { session: Session | null }) {
+export function Profile({ session }: { session: Session | null }) {
 	return (
 		<>
 			{session ? (
-				<div className="flex gap-4 items-center">
+				<div className="flex flex-col gap-4 items-center">
 					<div className="flex gap-2 items-center">
 						<Image
 							src={session.user?.image!}
@@ -20,14 +20,17 @@ export function HeaderProfile({ session }: { session: Session | null }) {
 						/>
 						<div>
 							<p className="font-semibold text-custom-text-100">{session.user?.name}</p>
-							<p className="text-yellow-400">{session.user?.points} pts</p>
+							<p className="text-custom-yellow-100">
+								<span className="font-semibold">{session.user?.points}</span>
+								&nbsp;LP
+							</p>
 						</div>
 					</div>
 					<Button
 						className="bg-custom-button-100 text-custom-text-100 hover:bg-custom-button-100/80"
 						onClick={() => signOutAction()}
 					>
-						Logout
+						Déconnexion
 					</Button>
 				</div>
 			) : (
@@ -35,7 +38,7 @@ export function HeaderProfile({ session }: { session: Session | null }) {
 					className="bg-custom-button-100 text-custom-text-100 hover:bg-custom-button-100/80"
 					onClick={() => signInAction()}
 				>
-					Login
+					Connexion
 				</Button>
 			)}
 		</>

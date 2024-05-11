@@ -1,11 +1,11 @@
 import { idsTracked } from "@/lib/apiConnector"
 import { db } from "@/lib/prisma"
-import { ClaimSection } from "@/components/ClaimSection"
 import { Matches } from "@/components/Matches"
 import { Leaderboard } from "@/components/Leaderboard"
-import { isClaimAvailable } from "@/lib/actions/claim"
 import { BetSection } from "@/components/BetSection"
 import { auth } from "@/auth"
+import { SectionWithTitle } from "@/components/SectionWIthTitle"
+import dayjs from "dayjs"
 
 export const dynamic = "force-dynamic"
 
@@ -13,7 +13,10 @@ export default async function Home() {
 	const matches = await db.match.findMany({
 		where: {
 			league_id: {
-				equals: idsTracked.leagues.MSI
+				in: [idsTracked.leagues.MSI]
+			},
+			scheduled_at: {
+				gte: dayjs().add(-1, "day").toDate()
 			},
 			opponents: {
 				some: {
@@ -50,18 +53,59 @@ export default async function Home() {
 
 	const session = await auth()
 
-	const { available, secondsUntilClaim } = await isClaimAvailable()
+	const bets = session?.user?.id
+		? await db.bet.findMany({
+				where: {
+					userId: {
+						equals: session?.user?.id
+					},
+					match: {
+						scheduled_at: {
+							gte: dayjs().add(-1, "day").toDate()
+						}
+					}
+				},
+				include: {
+					match: {
+						include: {
+							opponents: true,
+							games: true
+						}
+					},
+					team: true
+				},
+				orderBy: {
+					match: {
+						scheduled_at: "asc"
+					}
+				}
+			})
+		: []
 
 	return (
-		<main className="max-w-min text-nowrap m-10 flex gap-10">
-			<ul className="flex flex-col gap-2">
-				{matches.map((match) => (
-					<Matches match={match} key={match.id} />
-				))}
-			</ul>
-			<Leaderboard users={users} />
-			<BetSection userId={session?.user?.id}/>
-			<ClaimSection available={available} secondsUntilClaim={secondsUntilClaim} />
+		<main className="max-w-7xl m-auto text-nowrap flex flex-col gap-2">
+			<section className="rounded-lg bg-custom-background-200 border-[3px] border-custom-border-100 p-4 flex flex-col gap-2">
+				<h2 className="font-semibold text-xl">Qu'est ce que Lolbets ?</h2>
+				<p className="text-custom-text-200 text-wrap">
+					Lolbets est une compétition communautaire où vous pouvez parier vos points (LP) sur les matchs compétitifs de
+					League of Legends.
+					<br />
+					Lolbets est similaire aux prédictions Twitch.
+					<br />
+					Tous les jours, vous pouvez claim entre 0 et 1000 points, de manière aléatoire.
+				</p>
+			</section>
+			<section className="flex gap-2 justify-between">
+				<SectionWithTitle title="Bets à venir">
+					<BetSection bets={bets} />
+				</SectionWithTitle>
+				<SectionWithTitle title="Matchs à venir">
+					<Matches matches={matches} />
+				</SectionWithTitle>
+				<SectionWithTitle title="Leaderboard">
+					<Leaderboard users={users} />
+				</SectionWithTitle>
+			</section>
 		</main>
 	)
 }

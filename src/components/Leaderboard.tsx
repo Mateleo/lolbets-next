@@ -9,27 +9,32 @@ interface Props {
 export async function Leaderboard({ users }: Props) {
 	const session = await auth()
 	return (
-		<li className="flex flex-col min-w-max h-min gap-2">
+		<ol className="flex flex-col min-w-max h-min">
 			{users.map((user, index) => {
 				const isCurrentUser = session?.user?.id === user.id
 				return (
-					<ul
+					<li
 						key={user.id}
 						className={
-							"flex gap-3 items-center border-[3px] border-custom-border-100 p-4 rounded bg-custom-background-200"
+							"flex items-center justify-between gap-6 odd:bg-custom-background-200 px-4 py-2 border-custom-border-100 border-[3px] last:rounded-b-lg last:border-t-0 first:rounded-t-lg first:border-b-0"
 						}
 					>
-						<p className={`${isCurrentUser ? "text-custom-text-100" : "text-custom-text-200"}`}>{index + 1}</p>
-						<Image src={user.image!} width={50} height={50} alt={user.name!} className="rounded-full" />
-						<div className="flex flex-col">
+						<div className="flex gap-3 items-center">
+							<p className={`${isCurrentUser ? "text-custom-text-100" : "text-custom-text-200"} w-4 text-center`}>
+								{index + 1}
+							</p>
+							<Image src={user.image!} width={50} height={50} alt={user.name!} className="rounded-full" />
 							<p className={`font-semibold ${isCurrentUser ? "text-custom-text-100" : "text-custom-text-200"}`}>
 								{user.name}
 							</p>
-							<p className="text-yellow-400">{user.points} pts</p>
 						</div>
-					</ul>
+						<p className="text-custom-yellow-100">
+							<span className={`${isCurrentUser ? "font-semibold" : ""}`}>{user.points}</span>
+							&nbsp;LP
+						</p>
+					</li>
 				)
 			})}
-		</li>
+		</ol>
 	)
 }

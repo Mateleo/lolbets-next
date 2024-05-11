@@ -39,6 +39,9 @@ const config = {
 				"custom-border": {
 					100: "#010101"
 				},
+				"custom-yellow": {
+					100: "#e9ce8b"
+				},
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",
