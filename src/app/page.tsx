@@ -13,7 +13,7 @@ export default async function Home() {
 	const matches = await db.match.findMany({
 		where: {
 			league_id: {
-				in: [idsTracked.leagues.MSI]
+				in: [idsTracked.leagues.LEC, idsTracked.leagues.LFL]
 			},
 			scheduled_at: {
 				gte: dayjs().add(-1, "day").toDate()

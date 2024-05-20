@@ -5,16 +5,19 @@ const BASE_URL = "https://api.pandascore.co/lol"
 export const idsTracked = {
 	series: {
 		"MSI 2024": 7448
+		// "LEC SUMMER 2024": 
 	},
 	leagues: {
-		MSI: 300
+		MSI: 300,
+		LEC: 4197,
+		LFL: 4292
 	}
 } as const
 
 function buildFilters(ids: typeof idsTracked) {
 	let url = "?"
-	Object.entries(ids.series).map((serie) => {
-		url += `filter[serie_id]=${serie[1]}&`
+	Object.entries(ids.leagues).map((league) => {
+		url += `filter[league_id]=${league[1]}&`
 	})
 	return `${url}per_page=100`
 }
