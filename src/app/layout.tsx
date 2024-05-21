@@ -59,7 +59,7 @@ async function Sidebar() {
 					className="flex gap-2 p-2 items-center hover:bg-custom-button-100/20 transition-all rounded-lg"
 				>
 					<Swords />
-					<p>Matches history</p>
+					<p>Match history</p>
 				</Link>
 			</div>
 			<section className="flex flex-col gap-4">

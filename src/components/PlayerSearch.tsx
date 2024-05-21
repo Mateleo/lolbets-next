@@ -35,7 +35,7 @@ export function PlayerSearch({ users = [] }: Props) {
 						<Link
 							href={`/player/${result.name}`}
 							key={`${result.name}${index}`}
-							className="flex gap-2 p-2 items-center border-custom-border-100 border-b-[3px] last:border-b-0 first:border-t-[3px] hover:bg-custom-button-100/20 transition-all odd:bg-custom-background-100"
+							className="flex gap-2 p-2 items-center border-custom-border-100 border-b-[3px] last:border-b-0 last:rounded-b first:border-t-[3px] hover:bg-custom-button-100/20 transition-all odd:bg-custom-background-100"
 						>
 							<Image src={result.image!} width={24} height={24} alt={`${result.name} pp`} className="rounded-xl" />
 							<p className="text-custom-text-200">{result.name}</p>
