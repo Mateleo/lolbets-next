@@ -23,7 +23,8 @@ export function Profile({ session }: { session: Session | null }) {
 							<p className="font-semibold text-custom-text-100">{session.user?.name}</p>
 							<p className="text-custom-yellow-100">
 								<span className="font-semibold">{session.user?.points}</span>
-								&nbsp;LP
+								&nbsp;LP&nbsp;
+								<span className="text-xs text-custom-text-200">disponibles</span>
 							</p>
 						</div>
 					</Link>

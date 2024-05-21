@@ -63,7 +63,7 @@ export default async function Page({ params }: { params: { player: string } }) {
 	const lpLost = player.bets.reduce((a, b) => (b.status === "lost" ? a + b.amountRecieved! : a), 0)
 	const lpBetted = player.bets.reduce((a, b) => a + b.amount, 0)
 	const winrate = ((nbOfWonBets / nbOfEndedBets) * 100).toFixed(1)
-	const points = player.points + player.bets.filter(bet => bet.status === "pending").reduce((a, b) => a + b.amount, 0)
+	const points = player.points + player.bets.filter((bet) => bet.status === "pending").reduce((a, b) => a + b.amount, 0)
 	return (
 		<div className="m-auto max-w-7xl flex flex-col gap-4">
 			<div className="bg-custom-background-200 border-[3px] border-custom-border-100 rounded-lg p-10">

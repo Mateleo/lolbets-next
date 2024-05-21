@@ -86,8 +86,8 @@ export default async function Home() {
 	return (
 		<main className="max-w-7xl m-auto text-nowrap flex flex-col gap-4">
 			<section className="rounded-lg bg-custom-background-200 border-[3px] border-custom-border-100 p-4 flex flex-col gap-2">
-				<h2 className="font-semibold text-xl">Qu'est ce que Lolbets ?</h2>
-				<p className="text-custom-text-200 text-wrap">
+				<h2 className="font-semibold lg:text-xl">Qu'est ce que Lolbets ?</h2>
+				<p className="text-custom-text-200 text-wrap text-xs lg:text-base">
 					Lolbets est une compétition communautaire où vous pouvez parier vos points (LP) sur les matchs compétitifs de
 					League of Legends.
 					<br />
@@ -96,7 +96,7 @@ export default async function Home() {
 					Tous les jours, vous pouvez claim entre 0 et 1000 points, de manière aléatoire.
 				</p>
 			</section>
-			<section className="flex gap-2 justify-between">
+			<section className={"flex flex-col gap-2 justify-between lg:flex-row"}>
 				<SectionWithTitle title="Bets à venir">
 					<BetSection bets={bets} />
 				</SectionWithTitle>
