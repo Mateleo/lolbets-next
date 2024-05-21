@@ -1,11 +1,15 @@
 import { auth } from "@/auth"
 import { cn } from "@/lib/utils"
-import type { User } from "@prisma/client"
+import type { Prisma } from "@prisma/client"
 import Image from "next/image"
 import Link from "next/link"
 
 interface Props {
-	users: User[]
+	users: Prisma.UserGetPayload<{
+		include: {
+			bets: true
+		}
+	}>[]
 }
 
 export async function Leaderboard({ users }: Props) {
@@ -14,6 +18,7 @@ export async function Leaderboard({ users }: Props) {
 		<ol className="flex flex-col min-w-max h-min">
 			{users.map((user, index) => {
 				const isCurrentUser = session?.user?.id === user.id
+				const points = user.points + user.bets.reduce((a, b) => a + b.amount, 0)
 				return (
 					<Link
 						href={`/player/${user.name}`}
@@ -33,7 +38,7 @@ export async function Leaderboard({ users }: Props) {
 							</p>
 						</section>
 						<p className="text-custom-yellow-100">
-							<span className={`${isCurrentUser ? "font-semibold" : ""}`}>{user.points}</span>
+							<span className={`${isCurrentUser ? "font-semibold" : ""}`}>{points}</span>
 							&nbsp;LP
 						</p>
 					</Link>

@@ -63,6 +63,7 @@ export default async function Page({ params }: { params: { player: string } }) {
 	const lpLost = player.bets.reduce((a, b) => (b.status === "lost" ? a + b.amountRecieved! : a), 0)
 	const lpBetted = player.bets.reduce((a, b) => a + b.amount, 0)
 	const winrate = ((nbOfWonBets / nbOfEndedBets) * 100).toFixed(1)
+	const points = player.points + player.bets.filter(bet => bet.status === "pending").reduce((a, b) => a + b.amount, 0)
 	return (
 		<div className="m-auto max-w-7xl flex flex-col gap-4">
 			<div className="bg-custom-background-200 border-[3px] border-custom-border-100 rounded-lg p-10">
@@ -77,7 +78,7 @@ export default async function Page({ params }: { params: { player: string } }) {
 			<section className="flex gap-4">
 				<SectionWithTitle title="Stats" className="text-custom-text-200">
 					<div className="bg-custom-background-200 border-[3px] border-custom-border-100 rounded-lg p-4 flex flex-col">
-						<span className="text-custom-yellow-100 font-semibold">{player.points} LP</span>
+						<span className="text-custom-yellow-100 font-semibold">{points} LP</span>
 						<span>
 							{nbOfWonBets}V {nbOfLostBets}D
 						</span>

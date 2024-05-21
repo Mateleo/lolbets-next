@@ -42,11 +42,12 @@ export default async function Home() {
 			points: "desc"
 		},
 		include: {
-			claims: {
-				orderBy: {
-					date: "desc"
-				},
-				take: 1
+			bets: {
+				where: {
+					status: {
+						equals: "pending"
+					}
+				}
 			}
 		}
 	})
