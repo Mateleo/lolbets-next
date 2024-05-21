@@ -57,7 +57,7 @@ export default async function Home() {
 		? await db.bet.findMany({
 				where: {
 					userId: {
-						equals: session?.user?.id
+						equals: session.user.id
 					},
 					match: {
 						scheduled_at: {

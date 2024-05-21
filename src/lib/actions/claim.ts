@@ -67,7 +67,7 @@ export async function claim() {
 		return { error: `Too soon, ${MINUTES_IN_DAY - Math.floor(secondsUntilClaim / 60)} minutes remaining` }
 	}
 
-	const amount: number = Math.floor(Math.random() * 10) ** 3
+	const amount: number = Math.floor(Math.random() * 1000)
 
 	await db.claim.create({
 		data: {

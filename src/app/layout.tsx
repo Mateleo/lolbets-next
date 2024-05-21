@@ -12,6 +12,8 @@ import Image from "next/image"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { PlayerSearch } from "@/components/PlayerSearch"
+import { db } from "@/lib/prisma"
+import { Swords } from "lucide-react"
 
 export const metadata: Metadata = {
 	title: "Lolbets renaissance",
@@ -39,13 +41,26 @@ export default async function RootLayout({
 async function Sidebar() {
 	const session = await auth()
 	const { available, secondsUntilClaim } = await isClaimAvailable()
+	const users = await db.user.findMany({
+		select: {
+			image: true,
+			name: true
+		}
+	})
 	return (
 		<nav className="p-4 flex flex-col justify-between bg-custom-background-200 border-[3px] border-custom-border-100 rounded-lg">
 			<div className="flex flex-col gap-4">
 				<Link href="/">
 					<h1 className="text-5xl font-semibold">Lolbets</h1>
 				</Link>
-				<PlayerSearch />
+				<PlayerSearch users={users} />
+				<Link
+					href={"/matches"}
+					className="flex gap-2 p-2 items-center hover:bg-custom-button-100/20 transition-all rounded-lg"
+				>
+					<Swords />
+					<p>Matches history</p>
+				</Link>
 			</div>
 			<section className="flex flex-col gap-4">
 				<ClaimSection available={available} secondsUntilClaim={secondsUntilClaim} />
